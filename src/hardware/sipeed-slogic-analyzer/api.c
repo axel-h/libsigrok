@@ -320,6 +320,11 @@ static int config_set(uint32_t key, GVariant *data,
 			sdi->driver->config_set(SR_CONF_PATTERN_MODE,
 				g_variant_new_string(logic_pattern_str[2]),
 				sdi, sdi->channel_groups->data);
+		} else {
+			sr_dbg("set 8 ch");
+			sdi->driver->config_set(SR_CONF_PATTERN_MODE,
+				g_variant_new_string(logic_pattern_str[3]),
+				sdi, sdi->channel_groups->data);
 		}
 		break;
 	case SR_CONF_LIMIT_SAMPLES:
