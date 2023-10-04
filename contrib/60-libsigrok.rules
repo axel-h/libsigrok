@@ -379,4 +379,7 @@ ATTRS{idVendor}=="0c12", ATTRS{idProduct}=="7060", ENV{ID_SIGROK}="1"
 ATTRS{idVendor}=="0c12", ATTRS{idProduct}=="7064", ENV{ID_SIGROK}="1"
 ATTRS{idVendor}=="0c12", ATTRS{idProduct}=="7100", ENV{ID_SIGROK}="1"
 
+# Sipeed SLogic Lite 8
+ATTRS{idVendor}=="359f", ATTRS{idProduct}=="0300", ENV{ID_SIGROK}="1"
+
 LABEL="libsigrok_rules_end"
