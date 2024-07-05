@@ -370,6 +370,8 @@ static int command_start_acquisition(const struct sr_dev_inst *sdi)
 		// return SR_ERR;
 	}
 
+	sr_dbg("SLogic samplerate(%dch) = %d (clocksource is 160 MHz)", samplechannel, samplerate);
+
 	samplerate /= SR_MHZ(1);
 	cmd.sample_rate_h = (samplerate >> 8) & 0xff;
 	cmd.sample_rate_l = samplerate & 0xff;
