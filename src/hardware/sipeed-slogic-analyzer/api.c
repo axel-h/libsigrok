@@ -109,7 +109,7 @@ static GSList *scan(struct sr_dev_driver *di, GSList *options)
 	}
 
 	if(!conn) {
-		conn = "359f.0300";
+		conn = "359f.0300"; /* default VID/PID */
 	}
 
 	/* Find all slogic compatible devices. */
