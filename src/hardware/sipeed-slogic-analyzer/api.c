@@ -217,7 +217,7 @@ static int dev_close(struct sr_dev_inst *sdi)
 	/* TODO: get handle from sdi->conn and close it. */
 	int ret;
 	struct sr_usb_dev_inst *usb = sdi->conn;
-	struct dev_context *devc= sdi->priv;
+	struct dev_context *devc = sdi->priv;
 
 	ret = libusb_release_interface(usb->devhdl, 0);
 	if (ret != LIBUSB_SUCCESS) {
