@@ -31,15 +31,6 @@
 #define NUM_SIMUL_TRANSFERS 32
 #define MAX_EMPTY_TRANSFERS (NUM_SIMUL_TRANSFERS * 2)
 
-#define DBG_VAL(expr) do {\
-	__typeof((expr)) _expr = (expr);\
-	sr_warn("[%u]%s<"#expr"> i:%d\tu:%u\tf:%f\th:%x", __LINE__, __func__, \
-		*(long*)(&_expr), \
-		*(unsigned long*)(&_expr), \
-		*(float*)(&_expr), \
-		*(unsigned long*)(&_expr)); \
-}while(0)
-
 struct slogic_profile {
 	uint16_t vid;
 	uint16_t pid;

@@ -83,7 +83,6 @@ static struct sr_dev_driver sipeed_slogic_analyzer_driver_info;
 
 static GSList *scan(struct sr_dev_driver *di, GSList *options)
 {
-	// sr_dbg("Enter func %s with di: %p, options: %p", __func__, di, options);
 	struct drv_context *drvc;
 	GSList *devices;
 
@@ -108,7 +107,7 @@ static GSList *scan(struct sr_dev_driver *di, GSList *options)
 			break;
 		}
 	}
-	
+
 	if(!conn) {
 		conn = "359f.0300";
 	}
@@ -165,13 +164,11 @@ static GSList *scan(struct sr_dev_driver *di, GSList *options)
 	}
 	// g_slist_free_full(conn_devices, (GDestroyNotify)sr_usb_dev_inst_free);
 
-	// sr_dbg("Leave func %s", __func__);
 	return std_scan_complete(di, devices);
 }
 
 static int dev_open(struct sr_dev_inst *sdi)
 {
-	// sr_dbg("Enter func %s with sdi: %p", __func__, sdi);
 	(void)sdi;
 
 	/* TODO: get handle from sdi->conn and open it. */
@@ -209,14 +206,12 @@ static int dev_open(struct sr_dev_inst *sdi)
 	devc->num_frames = 0;
 	devc->limit_frames = 1;
 	devc->capture_ratio = 0;
-	
-	// sr_dbg("Leave func %s", __func__);
+
 	return std_dummy_dev_open(sdi);
 }
 
 static int dev_close(struct sr_dev_inst *sdi)
 {
-	// sr_dbg("Enter func %s with sdi: %p", __func__, sdi);
 	(void)sdi;
 
 	/* TODO: get handle from sdi->conn and close it. */
@@ -233,14 +228,12 @@ static int dev_close(struct sr_dev_inst *sdi)
 
 	sr_usb_close(usb);
 
-	// sr_dbg("Leave func %s", __func__);
 	return std_dummy_dev_close(sdi);
 }
 
 static int config_get(uint32_t key, GVariant **data,
 	const struct sr_dev_inst *sdi, const struct sr_channel_group *cg)
 {
-	// sr_dbg("Enter func %s with key: %u, data: %p, sdi: %p, cg: %p", __func__, key, data, sdi, cg);
 	int ret;
 
 	(void)sdi;
@@ -287,14 +280,12 @@ static int config_get(uint32_t key, GVariant **data,
 		return SR_ERR_NA;
 	}
 
-	// sr_dbg("Leave func %s", __func__);
 	return ret;
 }
 
 static int config_set(uint32_t key, GVariant *data,
 	const struct sr_dev_inst *sdi, const struct sr_channel_group *cg)
 {
-	sr_dbg("Enter func %s with key: %u, data: %p, sdi: %p, cg: %p", __func__, key, data, sdi, cg);
 	int ret;
 
 	(void)sdi;
@@ -311,17 +302,14 @@ static int config_set(uint32_t key, GVariant *data,
 			return SR_ERR_ARG;
 		devc->cur_samplerate = g_variant_get_uint64(data);
 		if (devc->cur_samplerate >= SR_MHZ(128)) {
-			sr_dbg("set 2 ch");
 			sdi->driver->config_set(SR_CONF_PATTERN_MODE,
 				g_variant_new_string(logic_pattern_str[1]),
 				sdi, sdi->channel_groups->data);
 		} else if (devc->cur_samplerate >= SR_MHZ(64)) {
-			sr_dbg("set 4 ch");
 			sdi->driver->config_set(SR_CONF_PATTERN_MODE,
 				g_variant_new_string(logic_pattern_str[2]),
 				sdi, sdi->channel_groups->data);
 		} else {
-			sr_dbg("set 8 ch");
 			sdi->driver->config_set(SR_CONF_PATTERN_MODE,
 				g_variant_new_string(logic_pattern_str[3]),
 				sdi, sdi->channel_groups->data);
@@ -337,7 +325,6 @@ static int config_set(uint32_t key, GVariant *data,
 		if (logic_pattern < 0)
 			return SR_ERR_ARG;
 		if (((struct sr_channel *)cg->channels->data)->type == SR_CHANNEL_LOGIC) {
-			// sr_dbg("Setting logic pattern to %s", logic_pattern_str[logic_pattern]);
 			devc->logic_pattern = logic_pattern;
 			/* Might as well do this now, these are static. */
 			size_t idx = 0;
@@ -361,14 +348,12 @@ static int config_set(uint32_t key, GVariant *data,
 		ret = SR_ERR_NA;
 	}
 
-	// sr_dbg("Leave func %s", __func__);
 	return ret;
 }
 
 static int config_list(uint32_t key, GVariant **data,
 	const struct sr_dev_inst *sdi, const struct sr_channel_group *cg)
 {
-	// sr_dbg("Enter func %s with key: %x, data: %p, sdi: %p, cg: %p", __func__, key, data, sdi, cg);
 	int ret;
 
 	(void)sdi;
@@ -392,7 +377,6 @@ static int config_list(uint32_t key, GVariant **data,
 	case SR_CONF_SAMPLERATE:
 		*data = std_gvar_samplerates(ARRAY_AND_SIZE(samplerates));
 		break;
-	// sr_dbg("Leave func %s", __func__);
 	case SR_CONF_TRIGGER_MATCH:
 		*data = std_gvar_array_i32(ARRAY_AND_SIZE(trigger_matches));
 		break;
@@ -409,7 +393,6 @@ static int config_list(uint32_t key, GVariant **data,
 		return SR_ERR_NA;
 	}
 
-	// sr_dbg("Leave func %s", __func__);
 	return ret;
 }
 
