@@ -294,26 +294,22 @@ static int config_set(uint32_t key, GVariant *data,
 
 	struct dev_context *devc= sdi->priv;
 	int logic_pattern;
+	uint64_t sample_rate;
+	int idx;
 	ret = SR_OK;
 	switch (key) {
 	/* TODO */
 	case SR_CONF_SAMPLERATE:
 		if (std_u64_idx(data, ARRAY_AND_SIZE(samplerates)) < 0)
 			return SR_ERR_ARG;
-		devc->cur_samplerate = g_variant_get_uint64(data);
-		if (devc->cur_samplerate >= SR_MHZ(128)) {
-			sdi->driver->config_set(SR_CONF_PATTERN_MODE,
-				g_variant_new_string(logic_pattern_str[1]),
-				sdi, sdi->channel_groups->data);
-		} else if (devc->cur_samplerate >= SR_MHZ(64)) {
-			sdi->driver->config_set(SR_CONF_PATTERN_MODE,
-				g_variant_new_string(logic_pattern_str[2]),
-				sdi, sdi->channel_groups->data);
-		} else {
-			sdi->driver->config_set(SR_CONF_PATTERN_MODE,
-				g_variant_new_string(logic_pattern_str[3]),
-				sdi, sdi->channel_groups->data);
-		}
+		sample_rate = g_variant_get_uint64(data);
+		devc->cur_samplerate = sample_rate;
+		idx = (sample_rate >= SR_MHZ(128)) ? 1
+				: (sample_rate >= SR_MHZ(64)) ? 2
+				: 3;
+        sdi->driver->config_set(SR_CONF_PATTERN_MODE,
+            g_variant_new_string(logic_pattern_str[idx]),
+            sdi, sdi->channel_groups->data);
 		break;
 	case SR_CONF_LIMIT_SAMPLES:
 		devc->limit_samples = g_variant_get_uint64(data);
